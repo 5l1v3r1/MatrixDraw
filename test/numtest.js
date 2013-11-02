@@ -70,7 +70,7 @@ function testComparison() {
 
 function testPi() {
     BigReal.withPrecision(256, function() {
-        var pi = BigReal.fromString('3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954');
+        var pi = BigReal.fromString(BigReal.piString);
         var circle = pi.mul(BigReal.fromFloat(2));
         console.log('2*pi = ' + circle);
     });
@@ -84,6 +84,16 @@ function testSqrt() {
         sqrt = real1.sqrt();
     });
     console.log('sqrt(' + numRoot + ') = ' + sqrt);
+}
+
+function testTrig() {
+    BigReal.withPrecision(32, function() {
+        var pi = BigReal.fromString(BigReal.piString);
+        var angle = pi.mul(BigReal.fromFloat(2/3));
+        console.log('sin(2*pi/3) = ' + angle.sin());
+        console.log('cos(2*pi/3) = ' + angle.cos());
+        console.log('tan(2*pi/3) = ' + angle.tan());
+    });
 }
 
 function timeAdd() {
@@ -118,6 +128,7 @@ console.log('\nTesting real values\n');
 testComparison();
 testPi();
 testSqrt();
+testTrig();
 
 console.log('\nRunning integer speed tests\n');
 timeAdd();
