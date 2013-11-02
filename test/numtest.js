@@ -14,6 +14,10 @@ function testAddSub() {
     // test negative plus negative
     number1 = BigInt.fromString('-123');
     console.log(number1 + ' + ' + number2 + ' = ' + number1.add(number2));
+    // test big subtraction
+    number1 = BigInt.fromString('90582382938929');
+    number2 = BigInt.fromString('12093812309');
+    console.log(number1 + ' - ' + number2 + ' = ' + number1.sub(number2));
 }
 
 function testDiv() {
@@ -109,13 +113,35 @@ function timeAdd() {
 
 function timeMul() {
     var start = new Date();
-    var a = BigInt.fromString('9228166182613886140');
-    var b = BigInt.fromString('15498304000760546492');
+    var a = BigInt.fromString('92281661826138860');
+    var b = BigInt.fromString('154983040007605464');
     for (var i = 0; i < 1000; i++) {
         var prod = a.mul(b);
     }
     var ms = new Date().getTime() - start.getTime();
     console.log('1000 64-bit products in ' + ms + 'ms');
+}
+
+function timeDiv() {
+    var start = new Date();
+    var b = BigInt.fromString('9228166182613');
+    var a = BigInt.fromString('1549830400076054');
+    for (var i = 0; i < 1000; i++) {
+        var quot = a.div(b);
+    }
+    var ms = new Date().getTime() - start.getTime();
+    console.log('1000 64-bit quotients in ' + ms + 'ms');
+}
+
+function timeSub() {
+    var start = new Date();
+    var b = BigInt.fromString('9228166182613');
+    var a = BigInt.fromString('1549830400076054');
+    for (var i = 0; i < 20000; i++) {
+        var diff = a.sub(b);
+    }
+    var ms = new Date().getTime() - start.getTime();
+    console.log('20000 64-bit subtractions in ' + ms + 'ms');
 }
 
 console.log('\nTesting int values\n');
@@ -132,4 +158,6 @@ testTrig();
 
 console.log('\nRunning integer speed tests\n');
 timeAdd();
+timeSub();
 timeMul();
+timeDiv();
