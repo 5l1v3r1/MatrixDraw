@@ -1,0 +1,1 @@
+This is going to be a WebGL application which renders and animates 3D linear transformations. Currently, I am developing a high-precision floating point library so that I may better compute the n-th root of a matrix.
