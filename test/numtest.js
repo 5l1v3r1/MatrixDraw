@@ -90,6 +90,22 @@ function testSqrt() {
     console.log('sqrt(' + numRoot + ') = ' + sqrt);
 }
 
+function testCbrt() {
+    var numRoot = 3;
+    var real1 = BigReal.fromFloat(numRoot);
+    var cbrt = null;
+    BigReal.withPrecision(256, function() {
+        cbrt = real1.cbrt();
+    });
+    console.log('cbrt(' + numRoot + ') = ' + cbrt);
+    
+    BigReal.withPrecision(256, function() {
+        real1 = BigReal.fromFloat(1).div(BigReal.fromFloat(10));
+        cbrt = real1.cbrt();
+    });
+    console.log('cbrt(1/10) = ' + cbrt);
+}
+
 function testTrig() {
     BigReal.withPrecision(32, function() {
         var pi = BigReal.fromString(BigReal.piString);
@@ -97,6 +113,20 @@ function testTrig() {
         console.log('sin(2*pi/3) = ' + angle.sin());
         console.log('cos(2*pi/3) = ' + angle.cos());
         console.log('tan(2*pi/3) = ' + angle.tan());
+        
+        var inverse = angle.sin().arcsin();
+        console.log('arcsin(sin(2*pi/3)) = ' + inverse);
+        console.log('arcsin(1) = ' + BigReal.fromFloat(1).arcsin());
+    });
+    BigReal.withPrecision(64, function() {
+        // do a sweep
+        for (var i = -1; i < 1; i += 0.1) {
+            var bigInv = BigReal.fromFloat(i).arcsin();
+            var realInv = Math.asin(i);
+            if (Math.abs(bigInv.toFloat() - realInv) > 0.000001) {
+                console.log('!!Inverse trig difference: ' + i + ' ' + Math.asin(i) + ' != ' + bigInv);
+            }
+        }
     });
 }
 
@@ -162,6 +192,18 @@ function timeTrig() {
     });
 }
 
+function timeSqrt() {
+    BigReal.withPrecision(32, function() {
+        var number = BigReal.fromFloat(3);
+        var start = new Date();
+        for (var i = 0; i < 100; i++) {
+            var a = number.sqrt();
+        }
+        var ms = new Date().getTime() - start.getTime();
+        console.log('100 32-bit sqrt() in ' + ms + 'ms');
+    });
+}
+
 console.log('\nTesting int values\n');
 testAddSub();
 testDiv();
@@ -172,6 +214,7 @@ console.log('\nTesting real values\n');
 testComparison();
 testPi();
 testSqrt();
+testCbrt();
 testTrig();
 
 console.log('\nRunning integer speed tests\n');
@@ -180,3 +223,4 @@ timeSub();
 timeMul();
 timeDiv();
 timeTrig();
+timeSqrt();
