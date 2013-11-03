@@ -115,22 +115,26 @@ function timeMul() {
     var start = new Date();
     var a = BigInt.fromString('92281661826138860');
     var b = BigInt.fromString('154983040007605464');
-    for (var i = 0; i < 1000; i++) {
+    for (var i = 0; i < 2000; i++) {
         var prod = a.mul(b);
     }
     var ms = new Date().getTime() - start.getTime();
-    console.log('1000 64-bit products in ' + ms + 'ms');
+    console.log('2000 64-bit products in ' + ms + 'ms');
 }
 
 function timeDiv() {
     var start = new Date();
     var b = BigInt.fromString('9228166182613');
     var a = BigInt.fromString('1549830400076054');
+    var c = BigInt.fromString('1293');
     for (var i = 0; i < 1000; i++) {
         var quot = a.div(b);
     }
+    for (var i = 0; i < 1000; i++) {
+        var quot = a.div(c);
+    }
     var ms = new Date().getTime() - start.getTime();
-    console.log('1000 64-bit quotients in ' + ms + 'ms');
+    console.log('2000 64-bit quotients in ' + ms + 'ms');
 }
 
 function timeSub() {
@@ -142,6 +146,20 @@ function timeSub() {
     }
     var ms = new Date().getTime() - start.getTime();
     console.log('20000 64-bit subtractions in ' + ms + 'ms');
+}
+
+function timeTrig() {
+    BigReal.withPrecision(32, function() {
+        var pi = BigReal.fromString(BigReal.piString);
+        var angle = pi.mul(BigReal.fromFloat(2/3));
+    
+        var start = new Date();
+        for (var i = 0; i < 10; i++) {
+            var a = angle.tan();
+        }
+        var ms = new Date().getTime() - start.getTime();
+        console.log('10 32-bit tan() in ' + ms + 'ms');
+    });
 }
 
 console.log('\nTesting int values\n');
@@ -161,3 +179,4 @@ timeAdd();
 timeSub();
 timeMul();
 timeDiv();
+timeTrig();
